@@ -10,137 +10,122 @@
 5. Rama Aditya Rifki Harmono (2306165502)
 6. Salomo Immanuel Putra (2306219745)
 
-## II. Tautan Deployment APK
+## II. Tautan Deployment APK <SOON>
 
 ## III. Deskripsi Aplikasi 
 # Jakarta Wardrobe (JaWa)  – Connecting You to Jakarta's Trends
 
-Jakarta Wardrobe (JaWa) adalah aplikasi informasi yang menyediakan data lengkap mengenai produk fashion yang tersedia di berbagai toko di wilayah DKI Jakarta. Aplikasi ini bukanlah sebuah platform berbelanja online, melainkan sebuah wadah informasi yang memudahkan pengguna, baik warga Jakarta maupun pendatang, untuk menemukan dan mengeksplorasi produk fashion, seperti celana, baju, dress, sepatu, dan lainnya. Kategori yang disediakan di antaranya adalah women’s clothing, men’s clothing, dan footwear.
+Pernah bingung mencari produk fashion di Jakarta yang sesuai kebutuhan? JaWa hadir untuk mempermudah hidupmu! Kami bukan menjadi platform belanja online, melainkan sebuah panduan lengkap yang membantu kamu menemukan informasi tentang produk fashion terbaik di berbagai toko di Jakarta.
 
-Keberadaan aplikasi JaWa diharapkan dapat membantu pengguna untuk mengakses dan mendapatkan informasi setiap produk yang dicari, termasuk deskripsi, detail produk, ulasan, dan lokasi toko yang menjual produk tersebut. Aplikasi ini dilengkapi dengan berbagai fitur menarik, seperti rating dan comment yang akan tersedia pada laman ulasan, memungkinkan pengguna memberikan penilaian serta ulasan terhadap produk, sehingga dapat membantu pengguna lain dalam mengambil keputusan yang lebih terinformasi. Selain itu, pengguna juga dapat menyimpan produk favorit mereka ke dalam halaman khusus yang disebut user choice, di mana mereka dapat dengan mudah mengakses kembali produk-produk yang mereka sukai di masa mendatang. Selain fitur-fitur di atas JaWa juga menyediakan fitur categories yang mengelompokkan produk berdasarkan jenis fashion, serta modul filter location, yang memungkinkan pengguna menyaring produk berdasarkan lokasi toko, sehingga mereka dapat menemukan produk fashion yang tersedia di daerah terdekat. 
+### Apa itu Jakarta Wardrobe?
 
-Jakarta Wardrobe (JaWa) juga hadir dengan fitur Global Chat, sebuah modul yang dirancang untuk mendorong interaksi komunitas pengguna. Fitur ini memungkinkan pengguna untuk berdiskusi, bertanya, dan berbagi informasi seputar produk fashion yang ada di aplikasi. Global Chat dilengkapi dengan antarmuka yang user-friendly dan mendukung aktivitas seperti comment, like pada diskusi, serta kemampuan untuk menandai konten yang relevan. Selain itu, pengguna dapat memanfaatkan fitur ini untuk memulai diskusi baru atau mencari topik tertentu melalui fungsi pencarian.
+JaWa adalah aplikasi informasi yang menghubungkan kamu dengan produk fashion dari berbagai toko yang tersebar di wilayah Jakarta. Dari celana hingga dress, sneakers hingga heels, semuanya ada di JaWa! Dengan kategori seperti women’s clothing, men’s clothing, dan footwear, JaWa membantu kamu menemukan item fashion impianmu dengan lebih terencana dan tanpa ribet! 🚀
 
-Dengan fitur-fitur yang tersedia, Jakarta Wardrobe menjadi solusi efektif bagi pengguna yang ingin mengetahui ketersediaan produk fashion di Jakarta sebelum mengunjungi toko, sehingga dapat menghemat waktu dan memastikan produk yang diinginkan tersedia. Aplikasi ini menyediakan informasi yang berguna bagi para warga Jakarta maupun pengunjung untuk merencanakan pembelian produk dengan lebih efisien.
+### Apa saja kelebihannya?
 
+JaWa dipenuhi fitur-fitur seru dan bermanfaat yang bikin pengalaman fashion hunting kamu jadi menyenangkan:
 
-__Manfaat Aplikasi:__ 
+### ✨ Jelajahi Produk dengan Mudah
 
-1. __Memberikan informasi yang komprehensif__ tentang produk fashion di Jakarta, sehingga pengguna dapat dengan mudah menemukan produk yang  dicari.
-2. __Membantu pengguna memilih produk berdasarkan lokasi serta rating dan ulasan__ yang diberikan oleh pengguna lain, meningkatkan pengalaman eksplorasi.
-3. __Menawarkan fitur personalisasi__ melalui fitur __*User Choice*__, yang memungkinkan pengguna menyimpan produk favorit mereka untuk referensi di masa mendatang.
-4. __Mempermudah pencarian produk__ dengan fitur filter berdasarkan jenis fashion, nama produk (*alphabetical*), dan lokasi toko.
-5. __Mendorong interaksi komunitas__ melalui fitur komentar dan ulasan, di mana pengguna dapat berbagi pengalaman mereka mengenai produk tertentu. 
+Akses detail lengkap terkait produk, mulai dari deskripsi, harga, ulasan, hingga lokasi toko yang menjualnya. Dengan informasi ini, kamu bisa merencanakan kunjungan toko dengan lebih efektif.
 
-Dengan fitur-fitur ini, Jakarta Wardrobe menjadi solusi efektif bagi pengguna yang ingin mengetahui ketersediaan produk fashion di Jakarta sebelum mengunjungi toko, sehingga dapat menghemat waktu dan memastikan produk yang diinginkan tersedia. Aplikasi ini menyediakan informasi yang berguna bagi para warga Jakarta maupun pengunjung untuk merencanakan pembelian produk dengan lebih efisien.
+### 🌟 Rating dan Ulasan
 
+Lihat apa kata pengguna lain atau tinggalkan ulasanmu sendiri. Fitur ini membantu semua orang membuat keputusan yang lebih baik saat memilih produk fashion.
+
+### 💖 User Choice - Simpan Produk Favorit
+
+Menemukan produk favoritmu? Simpan ke fitur User Choice, dan akses kapan pun kamu mau. Fashion impianmu selalu siap menunggu!
+
+### 📍 Filter Lokasi
+
+Cari produk dari toko terdekat menggunakan fitur location filter. Hemat waktu, hemat tenaga, dan temukan fashion favoritmu dengan mudah!
+
+### 💬 Global Chat - Diskusi Bersama Komunitas!
+
+Butuh saran atau rekomendasi? Fitur Global Chat memungkinkan kamu berdiskusi dengan pengguna lain, bertanya, dan berbagi info menarik tentang produk fashion yang ada di aplikasi. 
+
+### Mengapa Jakarta Wardrobe Wajib Kamu Coba?
+
+JaWa bukan hanya sebuah aplikasi, tapi menjadi solusi praktis yang memudahkan kamu:
+✔ Menemukan produk dan inspirasi fashion tanpa harus berkeliling toko seharian.
+✔ Membantu merencanakan pembelian dengan informasi yang pasti.
+✔ Berinteraksi dengan komunitas pengguna untuk mendapatkan rekomendasi terbaik.
+Ayo, unduh sekarang dan rasakan kemudahan menjelajahi dunia fashion di Jakarta! Dengan JaWa, mencari produk fashion menjadi lebih efisien dan menyenangkan! 👗👔👟
 
 ## IV. Daftar Module dan Pembagian Kerja
 
-1. #### *Rating (Review Page)* 
-**Dikerjakan oleh Rama Aditya Rifki Harmono**
+### 🌟 Rating (Review Page)
 
-Modul ini bertanggung jawab untuk menyimpan dan menampilkan rating setiap produk. Rating diberikan dalam bentuk angka dengan range 1 sampai 5 yang disimpan sebagai atribut rating_value dalam tabel. Pada impleemntasinya, modul ini akan mengumpulkan dan menghitung rata-rata rating dari semua pengguna untuk setiap produk.
+Dikerjakan oleh __Rama Aditya Rifki Harmono__
+Modul ini bertanggung jawab untuk menyimpan dan menampilkan rating setiap produk. Rating diberikan dalam bentuk angka dengan rentang 1 hingga 5. Modul ini juga menghitung rata-rata rating dari semua pengguna untuk setiap produk, memberikan gambaran yang jelas tentang kualitas produk berdasarkan ulasan pengguna.
 
-#### *Attributes*:
-- id: Primary Key 
-- product_id: Foreign Key yang terhubung ke tabel Produk 
-- user_id: Foreign Key yang terhubung ke tabel Pengguna 
-- rating_value: Integer yang menyimpan nilai rating (1–5) 
-- timestamp: Timestamp untuk merekam waktu pemberian rating 
+### 💬 Comment (Review Page)
 
-2. #### *Comment (Review Page)* 
-**Dikerjakan oleh Salomo Immanuel Putra **
+Dikerjakan oleh __Salomo Immanuel Putra__
+Modul ini menyimpan komentar pengguna untuk setiap produk. Komentar dapat berupa ulasan, saran, atau pendapat tentang produk tertentu. Modul ini diintegrasikan dengan sistem rating, sehingga keduanya ditampilkan bersama dalam satu halaman ulasan untuk memberikan pengalaman yang lebih informatif dan interaktif bagi pengguna.
 
-Modul ini bertanggung jawab dalam menyimpan komentar yang diberikan oleh pengguna pada setiap produk. Setiap komentar dihubungkan dengan produk dan pengguna melalui __product_id__ dan __user_id__. Modul ini memungkinkan penyimpanan komentar dalam bentuk teks (comment_text), dengan waktu pembuatan disimpan dalam timestamp. Implementasi comment dan rating akan dijadikan satu dalam review page.
+### 👤 Profile Page
 
-#### *Attributes*:
-- id: Primary Key 
-- product_id: Foreign Key yang mengacu pada tabel Produk 
-- user_id: Foreign Key yang mengacu pada tabel Pengguna 
-- comment_text: Text yang menyimpan isi komentar 
-- timestamp: Timestamp untuk waktu pemberian komentar 
+Dikerjakan oleh __Dara Zakya Apriani__
+Modul ini memberikan pengguna kendali penuh atas data profil mereka, seperti mengelola nama, gambar profil, dan email. Selain itu, halaman profil menyajikan ringkasan aktivitas pengguna, termasuk ulasan, artikel atau blog yang mereka tulis, serta interaksi di Global Chat. Modul ini memudahkan pengguna untuk mengedit, memperbarui, atau menghapus aktivitas mereka kapan saja, menjadikannya pusat kendali pribadi dalam aplikasi.
 
-3. #### *Profile Page* 
-**Dikerjakan oleh Dara Zakya Apriani**
+### 💖 User Choice
 
-Modul __*Profile Page*__ memberikan pengguna kendali penuh atas data profil mereka, sekaligus menyajikan ringkasan aktivitas yang dilakukan dalam aplikasi __Jakarta Wardrobe__. Di dalam halaman profil, pengguna dapat melihat rekapan dari aktivitas-aktivitas mereka, termasuk ulasan yang diberikan, artikel atau blog yang mungkin mereka tulis serta interaksi dalam fitur __*Global Chat*__. Dengan fitur ini, pengguna memiliki akses langsung untuk mengelola aktivitas mereka, baik itu mengedit, menghapus, maupun memperbarui konten sesuai keinginan.
+Dikerjakan oleh __Andi Muhammad Adlyn Fakhreyza Khairi Putra__
+Modul ini memungkinkan pengguna untuk menyimpan produk favorit mereka dalam halaman khusus bernama User Choice. Selain menyimpan produk, pengguna juga bisa menambahkan catatan pribadi pada produk yang disukai melalui fitur add notes. Hal ini membantu pengguna mengingat alasan mereka menyukai produk tertentu atau membuat daftar pertimbangan sebelum membeli. Semua pilihan produk dan catatan tersimpan dalam satu tempat yang mudah diakses kapan saja.
 
+### 🛍️ Produk (Filter Categories & Location)
 
-#### *Attributes*:
-- id: Primary Key
-- username: String untuk nama pengguna
-- profile_image: URL atau path untuk menyimpan gambar profil
-- email: String untuk alamat email pengguna
-- date_joined: Timestamp untuk tanggal bergabung
-- activity_summary: Relasi One-to-Many dengan tabel Aktivitas yang mencakup ringkasan ulasan, artikel, dan interaksi di Global Chat
-- total_reviews: Integer yang menyimpan jumlah total ulasan pengguna
-- total_articles: Integer yang menyimpan jumlah total artikel atau blog pengguna
-- total_chat_interactions: Integer yang menyimpan jumlah total interaksi di Global Chat
-- activity_history: Array atau relasi dengan tabel Aktivitas yang mencatat perubahan atau penghapusan yang dilakukan pengguna
+Dikerjakan oleh __Sayyid Thariq Gilang Muttaqien__
+Modul ini memungkinkan pengguna untuk menyaring dan mengelompokkan produk berdasarkan kategori seperti Women’s Clothing, Men’s Clothing, dan Footwear, serta lokasi toko yang menjual produk tersebut. Dengan fitur ini, pengguna dapat menemukan produk yang sesuai preferensi mereka tanpa kesulitan, sekaligus memastikan produk yang dipilih tersedia di area yang mudah dijangkau.
+
+### 💌 Global Chat
+
+Dikerjakan oleh __Rizki Amani Hasanah__
+Modul ini menyediakan ruang komunitas bagi pengguna untuk saling berdiskusi dan berbagi informasi seputar produk fashion. Selain bisa mengirim dan membaca pesan di forum, pengguna juga dapat memberikan like pada diskusi yang menarik dan menyimpan diskusi favorit melalui fitur save. Untuk mempermudah, pengguna dapat memfilter forum berdasarkan diskusi paling disukai atau forum yang mereka simpan sebagai tanda diskusi tersebut relevan atau bermanfaat. Modul ini mendukung interaksi komunitas yang aktif dan menyenangkan dalam aplikasi.
 
 
-4. #### *User Choice* 
-**Dikerjakan oleh Andi Muhammad Adlyn Fakhreyza Khairi Putra**
+## V. Peran atau aktor pengguna aplikasi
 
-Modul ini bertanggung jawab untuk mengelola fitur User Choice. Pengguna akan memiliki halaman personal yang menampilkan barang-barang yang mereka masukkan ke dalam daftar favorit, disebut sebagai __*User Choice*__. Modul ini menyimpan pilihan produk berdasarkan preferensi pengguna, yang akan ditampilkan secara khusus pada halaman tersebut. Setiap produk favorit dihubungkan dengan pengguna melalui __user_id__ dan disimpan dalam bentuk daftar produk yang telah ditambahkan ke dalam pilihan mereka. pengguna juga 
+### Pengguna (User)
 
-#### *Attributes*:
-- id: Primary Key 
-- user_id: Foreign Key yang terhubung ke pengguna tertentu 
-- favorite_products: Array atau relasi *Many-to-Many* ke tabel Produk yang menyimpan daftar produk favorit pengguna 
+Pengguna adalah menjadi role utama dalam aplikasi yang dapat menjelajahi dan mencari produk fashion sesuai kebutuhan mereka. Mereka juga memiliki kemampuan untuk memberikan rating dan ulasan pada produk, menyimpan produk favorit melalui fitur User Choice, serta berinteraksi dengan komunitas pengguna lain melalui fitur Global Chat. Selain itu, pengguna dapat mengelola informasi pribadi mereka melalui halaman profil, termasuk memperbarui data (username) atau melacak aktivitas dalam aplikasi.
 
+### Admin
 
-5. #### *Produk (Filter Categories & Location)*
-**Dikerjakan oleh Sayyid Thariq Gilang Muttaqien**
-
-Modul ini bertanggung jawab untuk mengelompokkan dan menyaring produk berdasarkan kategori dan lokasi toko yang menjual setiap produk. Pengguna dapat memilih kategori produk yang mereka inginkan serta lokasi toko yang tersedia, sehingga hanya produk yang sesuai dengan preferensi tersebut yang akan ditampilkan. Setiap produk dihubungkan dengan kategori melalui __category_id__ dan dengan lokasi melalui __location_id__, yang memungkinkan pengelompokan dan penelusuran yang lebih terfokus.
-
-#### *Attributes*:
-- category_id: Primary Key untuk kategori
-- category_name: String yang menyimpan nama kategori, misalnya “Women’s Clothing”, “Men’s Clothing”, “Footwear”.
-- description: Text opsional untuk deskripsi kategori
-- location_id: Primary Key untuk lokasi
-- location_name: String untuk nama lokasi atau area toko
-- Produk Attributes:
-  1. product_id: Foreign Key yang menghubungkan ke produk tertentu
-  2. category_id: Foreign Key untuk menghubungkan produk dengan kategori tertentu
-  3. location_id: Foreign Key untuk menghubungkan produk dengan lokasi tertentu
-
-
-6. #### *Global Chat* 
-**Dikerjakan oleh Rizky Amani Hasanah**
-
-Modul ini menyediakan ruang komunitas bagi pengguna Jakarta Wardrobe (JaWa) untuk saling berinteraksi dan berdiskusi. Setiap pengguna dapat mengirim dan membaca pesan di ruang obrolan umum, di mana semua pengguna dapat berpartisipasi. Modul ini menyimpan pesan dalam bentuk teks, beserta informasi pengguna yang mengirim pesan dan waktu pengiriman, untuk membangun pengalaman komunitas yang aktif dan terbuka.
-
-#### *Attributes*:
-- id: Primary Key
-- user_id: Foreign Key yang menghubungkan pesan dengan pengguna tertentu
-- message_text: Text yang menyimpan isi pesan
-- timestamp: Timestamp untuk merekam waktu pengiriman pesan
-
-## V. Role atau Peran Pengguna
-
-1. *Rating* \
-Pengguna dapat melihat dan memberikan penilaian terhadap produk yang ditampilkan melalui fitur ini. 
-
-2. *Comment* \
-Pengguna dapat melihat dan meninggalkan komentar terkait suatu produk yang nantinya dapat dilihat oleh pengguna lain.
-
-3. *Edit Profile* \
-Pengguna dapat menyunting profil pengguna, seperti ID, nama, dan profile picture, dan informasi terkait akun mereka secara *real-time*. 
-
-4. *User Choice* \
-Pengguna dapat menyesuaikan preferensi mereka untuk menyesuaikan konten dan pengalaman di website agar lebih interaktif dan personal.
-
-5. *Categories* \
-Pengguna dapat memilih kategori produk yang mereka inginkan dan nantinya akan ditampilkan.
-
-6. *Location (Filter)* \
-Pengguna dapat menyaring daftar produk berdasarkan lokasi yang lebih ter-filter di Jakarta.
+Admin menjadi role yang bertanggung jawab untuk mengelola aplikasi agar tetap berjalan dengan baik. Mereka memiliki akses untuk menambah, mengedit, dan menghapus data produk di katalog. Selain itu, admin juga mengelola forum diskusi di Global Chat, termasuk menghapus forum atau konten yang tidak sesuai dengan kebijakan aplikasi, memastikan interaksi antar pengguna tetap relevan dan kondusif.
 
 
 ## VI. Alur Pengintegrasian
+
+Untuk mengintegrasikan aplikasi web yang telah dibuat pada Proyek Tengah Semester dengan aplikasi Jakarta Wardrobe, proses berikut akan dilakukan:
+
+### 1. Menambahkan Library HTTP
+
+Library HTTP akan ditambahkan ke dalam proyek aplikasi untuk memungkinkan komunikasi antara aplikasi mobile dengan web service. Library ini akan digunakan untuk mengirim dan menerima data melalui API yang disediakan oleh aplikasi web.
+
+### 2. Menggunakan Model Autentikasi yang Telah Dibuat
+Model autentikasi yang mencakup login, logout, dan registrasi pengguna dari proyek sebelumnya akan diimplementasikan. Hal ini memastikan pengguna mendapatkan otorisasi yang sesuai dengan peran mereka, seperti pengguna biasa atau admin. Sistem autentikasi akan memanfaatkan token atau session untuk mengamankan setiap request.
+
+### 3. Mengelola Cookie dengan Library PBP Django Auth
+Untuk mengelola autentikasi dan otorisasi yang berbasis cookie, library *pbp_django_auth* akan digunakan. Library ini memastikan setiap request ke server memiliki autentikasi yang valid sehingga hanya pengguna yang terotorisasi yang dapat mengakses data atau melakukan perubahan tertentu pada sistem.
+
+### 4. Membangun Kelas Produk pada Aplikasi Mobile
+
+Data produk yang tersedia di aplikasi web akan diambil melalui API yang telah dibuat. Endpoint API yang digunakan, misalnya: https://jawatest.live/products/get_products/.
+
+- Data yang diterima dalam format JSON akan diubah menjadi objek Dart menggunakan layanan seperti Quicktype (https://app.quicktype.io/).
+- Objek Dart yang dihasilkan akan digunakan untuk membangun kelas Produk dalam aplikasi, yang mencakup atribut-atribut seperti nama produk, harga, deskripsi, kategori, dan lokasi.
+
+### 5. Penggunaan API untuk Menampilkan dan Memfilter Data
+
+Aplikasi akan menggunakan endpoint API tersebut untuk menampilkan daftar produk dalam berbagai kategori. Selain itu, fitur seperti filter lokasi akan diimplementasikan dengan memanfaatkan parameter tambahan pada request API, misalnya: ?location=Jakarta.
+### 6. Testing dan Validasi
+Setelah integrasi selesai, proses pengujian akan dilakukan untuk memastikan aplikasi mobile dapat mengakses, menampilkan, dan memanipulasi data dari aplikasi web dengan lancar. 
+
+Dengan alur ini, aplikasi Jakarta Wardrobe diharapkan dapat terhubung secara optimal dengan aplikasi web, memastikan pengalaman pengguna yang baik dan responsif.
+
 
 
 </details>
