@@ -48,9 +48,13 @@ Butuh saran atau rekomendasi? Fitur Global Chat memungkinkan kamu berdiskusi den
 ### Mengapa Jakarta Wardrobe Wajib Kamu Coba?
 
 JaWa bukan hanya sebuah aplikasi, tapi menjadi solusi praktis yang memudahkan kamu:
+
 ✔ Menemukan produk dan inspirasi fashion tanpa harus berkeliling toko seharian.
+
 ✔ Membantu merencanakan pembelian dengan informasi yang pasti.
+
 ✔ Berinteraksi dengan komunitas pengguna untuk mendapatkan rekomendasi terbaik.
+
 Ayo, unduh sekarang dan rasakan kemudahan menjelajahi dunia fashion di Jakarta! Dengan JaWa, mencari produk fashion menjadi lebih efisien dan menyenangkan! 👗👔👟
 
 ## IV. Daftar Module dan Pembagian Kerja
@@ -58,31 +62,37 @@ Ayo, unduh sekarang dan rasakan kemudahan menjelajahi dunia fashion di Jakarta! 
 ### 🌟 Rating (Review Page)
 
 Dikerjakan oleh __Rama Aditya Rifki Harmono__
+
 Modul ini bertanggung jawab untuk menyimpan dan menampilkan rating setiap produk. Rating diberikan dalam bentuk angka dengan rentang 1 hingga 5. Modul ini juga menghitung rata-rata rating dari semua pengguna untuk setiap produk, memberikan gambaran yang jelas tentang kualitas produk berdasarkan ulasan pengguna.
 
 ### 💬 Comment (Review Page)
 
 Dikerjakan oleh __Salomo Immanuel Putra__
+
 Modul ini menyimpan komentar pengguna untuk setiap produk. Komentar dapat berupa ulasan, saran, atau pendapat tentang produk tertentu. Modul ini diintegrasikan dengan sistem rating, sehingga keduanya ditampilkan bersama dalam satu halaman ulasan untuk memberikan pengalaman yang lebih informatif dan interaktif bagi pengguna.
 
 ### 👤 Profile Page
 
 Dikerjakan oleh __Dara Zakya Apriani__
+
 Modul ini memberikan pengguna kendali penuh atas data profil mereka, seperti mengelola nama, gambar profil, dan email. Selain itu, halaman profil menyajikan ringkasan aktivitas pengguna, termasuk ulasan, artikel atau blog yang mereka tulis, serta interaksi di Global Chat. Modul ini memudahkan pengguna untuk mengedit, memperbarui, atau menghapus aktivitas mereka kapan saja, menjadikannya pusat kendali pribadi dalam aplikasi.
 
 ### 💖 User Choice
 
 Dikerjakan oleh __Andi Muhammad Adlyn Fakhreyza Khairi Putra__
+
 Modul ini memungkinkan pengguna untuk menyimpan produk favorit mereka dalam halaman khusus bernama User Choice. Selain menyimpan produk, pengguna juga bisa menambahkan catatan pribadi pada produk yang disukai melalui fitur add notes. Hal ini membantu pengguna mengingat alasan mereka menyukai produk tertentu atau membuat daftar pertimbangan sebelum membeli. Semua pilihan produk dan catatan tersimpan dalam satu tempat yang mudah diakses kapan saja.
 
 ### 🛍️ Produk (Filter Categories & Location)
 
 Dikerjakan oleh __Sayyid Thariq Gilang Muttaqien__
+
 Modul ini memungkinkan pengguna untuk menyaring dan mengelompokkan produk berdasarkan kategori seperti Women’s Clothing, Men’s Clothing, dan Footwear, serta lokasi toko yang menjual produk tersebut. Dengan fitur ini, pengguna dapat menemukan produk yang sesuai preferensi mereka tanpa kesulitan, sekaligus memastikan produk yang dipilih tersedia di area yang mudah dijangkau.
 
 ### 💌 Global Chat
 
 Dikerjakan oleh __Rizki Amani Hasanah__
+
 Modul ini menyediakan ruang komunitas bagi pengguna untuk saling berdiskusi dan berbagi informasi seputar produk fashion. Selain bisa mengirim dan membaca pesan di forum, pengguna juga dapat memberikan like pada diskusi yang menarik dan menyimpan diskusi favorit melalui fitur save. Untuk mempermudah, pengguna dapat memfilter forum berdasarkan diskusi paling disukai atau forum yang mereka simpan sebagai tanda diskusi tersebut relevan atau bermanfaat. Modul ini mendukung interaksi komunitas yang aktif dan menyenangkan dalam aplikasi.
 
 
