@@ -89,17 +89,22 @@ class _ProductListPageState extends State<ProductListPage> {
                           borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(12),
                           ),
-                          child: Image.network(
-                            product.imgUrl,
-                            height: 120,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Center(
-                                child: Icon(Icons.broken_image, size: 50),
-                              );
-                            },
-                          ),
+                          child: product.imgUrl.isNotEmpty
+                              ? Image.network(
+                                  product.imgUrl,
+                                  height: 120,
+                                  width: 120,
+                                  fit: BoxFit.cover,
+                                  // errorBuilder: (context, error, stackTrace) {
+                                  //   return const Center(
+                                  //     child: Icon(Icons.broken_image, size: 50),
+                                  //   );
+                                  // },
+                                )
+                              : const SizedBox(
+                                  height: 120,
+                                  child: Center(child: Icon(Icons.image, size: 50)),
+                                ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -115,17 +120,22 @@ class _ProductListPageState extends State<ProductListPage> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                "Rp ${product.price.toStringAsFixed(2)}",
-                                style: const TextStyle(fontSize: 14),
+                                "Rp ${product.price}",
+                                style: const TextStyle(fontSize: 14, color: Colors.green),
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                "Stock: ${product.stock}",
+                                "Kategori: ${product.category.name}",
                                 style: const TextStyle(fontSize: 12, color: Colors.grey),
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                "Location: ${product.location}",
+                                "Toko: ${product.shopName.name}",
+                                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                "Stock: ${product.stock}",
                                 style: const TextStyle(fontSize: 12, color: Colors.grey),
                               ),
                             ],
@@ -177,22 +187,27 @@ class ProductDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              "Rp ${product.price.toStringAsFixed(2)}",
+              "Rp ${product.price}",
               style: const TextStyle(fontSize: 18, color: Colors.green),
             ),
             const SizedBox(height: 8),
             Text(
-              "Deskripsi: ${product.desc ?? 'Tidak ada deskripsi'}",
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "Stok: ${product.stock}",
+              "Deskripsi: ${product.desc}",
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
             Text(
               "Warna: ${product.color}",
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Kategori: ${product.category.name}",
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Toko: ${product.shopName.name}",
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
