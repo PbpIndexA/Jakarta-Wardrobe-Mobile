@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jawa_app/menu.dart';
+import 'package:jawa_app/userchoice/screens/userchoicePage.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -31,18 +32,29 @@ class LeftDrawer extends StatelessWidget {
               ],
             ),
           ),
-            ListTile(
-              leading: const Icon(Icons.home_outlined),
-              title: const Text('Halaman Utama'),
-              // Bagian redirection ke MyHomePage
-              onTap: () {
-                Navigator.pushReplacement(
+          ListTile(
+            leading: const Icon(Icons.home_outlined),
+            title: const Text('Halaman Utama'),
+            // Bagian redirection ke MyHomePage
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyHomePage(),
+                  ));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_reaction_rounded),
+            title: const Text('Daftar Mood'),
+            onTap: () {
+                // Route menu ke halaman mood
+                Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => MyHomePage(),
-                    ));
-              },
-            ),
+                    MaterialPageRoute(builder: (context) => const UserChoicePage()),
+                );
+            },
+          ),
         ],
       ),
     );
