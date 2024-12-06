@@ -36,7 +36,11 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool _isLogin = true;
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -49,105 +53,127 @@ class _LoginPageState extends State<LoginPage> {
         style: TextStyle(color: Colors.white),
       )),
       body: Container(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Card(
-            elevation: 8,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Image(
-                    image: AssetImage('images/logo.png'),
-                    height: 100,
-                  ),
-                  const SizedBox(height: 30.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _isLogin = true;
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _isLogin
-                              ? Color.fromARGB(255, 61, 61, 67)
-                              : Colors.grey,
-                          textStyle: TextStyle(
-                              color: const Color.fromARGB(255, 27, 26, 26)),
+        child: Column(children: [
+          Image(
+            image: AssetImage('images/logo.png'),
+            height: 200,
+          ),
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _isLogin = true;
+                            });
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: !_isLogin
+                                ? const Color.fromARGB(255, 58, 56, 56)
+                                : const Color.fromARGB(255, 201, 201, 197),
+                            textStyle: TextStyle(),
+                          ),
+                          child: Text('Login',
+                              style: TextStyle(
+                                color: !_isLogin
+                                    ? const Color.fromARGB(255, 226, 226, 225)
+                                    : const Color.fromARGB(255, 39, 37, 37),
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                              )),
                         ),
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(color: Colors.white),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _isLogin = false;
+                            });
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: !_isLogin
+                                ? const Color.fromARGB(255, 201, 201, 197)
+                                : const Color.fromARGB(255, 58, 56, 56),
+                            textStyle: TextStyle(),
+                          ),
+                          child: Text(
+                            'Register',
+                            style: TextStyle(
+                              color: !_isLogin
+                                  ? const Color.fromARGB(255, 39, 37, 37)
+                                  : const Color.fromARGB(255, 226, 226, 225),
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _isLogin = false;
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _isLogin
-                              ? Color.fromARGB(255, 61, 61, 67)
-                              : Colors.grey,
-                          textStyle: TextStyle(
-                              color: const Color.fromARGB(255, 27, 26, 26)),
-                        ),
-                        child: Text(
-                          'Register',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24.0),
-                  _isLogin
-                      ? _buildLoginForm(request)
-                      : _buildRegisterForm(request),
-                ],
+                      ],
+                    ),
+                    const SizedBox(height: 24.0),
+                    _isLogin
+                        ? _buildLoginForm(request)
+                        : _buildRegisterForm(request),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+        ]),
       ),
     );
   }
 
   Widget _buildLoginForm(CookieRequest request) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextField(
+        const Text('Username'),
+        const SizedBox(height: 8.0),
+        TextFormField(
           controller: _usernameController,
           decoration: const InputDecoration(
-            labelText: 'Username',
             hintText: 'Enter your username',
+            hintStyle: TextStyle(color: Colors.grey),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 2,
+                )),
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           ),
         ),
         const SizedBox(height: 12.0),
-        TextField(
+        const Text('Password'),
+        const SizedBox(height: 8.0),
+        TextFormField(
           controller: _passwordController,
-          decoration: const InputDecoration(
-            labelText: 'Password',
+          decoration: InputDecoration(
             hintText: 'Enter your password',
-            border: OutlineInputBorder(
+            hintStyle: const TextStyle(color: Colors.grey),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
             ),
             contentPadding:
-                EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            suffixIcon: IconButton(
+              icon: Icon(
+                  _obscurePassword ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  _obscurePassword = !_obscurePassword;
+                });
+              },
+            ),
           ),
-          obscureText: true,
+          obscureText: _obscurePassword,
         ),
         const SizedBox(height: 24.0),
         ElevatedButton(
@@ -208,70 +234,79 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildRegisterForm(CookieRequest request) {
-    final TextEditingController _usernameController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
-    final TextEditingController _confirmPasswordController =
-        TextEditingController();
-
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const Text(
+          'Create an Account',
+          style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 24.0),
+        const Text('Username'),
+        const SizedBox(height: 8.0),
         TextFormField(
           controller: _usernameController,
           decoration: const InputDecoration(
-            labelText: 'Username',
             hintText: 'Enter your username',
+            hintStyle: TextStyle(color: Colors.grey),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
             ),
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter your username';
-            }
-            return null;
-          },
         ),
         const SizedBox(height: 12.0),
+        const Text('Password'),
+        const SizedBox(height: 8.0),
         TextFormField(
           controller: _passwordController,
-          decoration: const InputDecoration(
-            labelText: 'Password',
+          decoration: InputDecoration(
             hintText: 'Enter your password',
-            border: OutlineInputBorder(
+            hintStyle: const TextStyle(color: Colors.grey),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
             ),
             contentPadding:
-                EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            suffixIcon: IconButton(
+              icon: Icon(
+                  _obscurePassword ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  _obscurePassword = !_obscurePassword;
+                });
+              },
+            ),
           ),
-          obscureText: true,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter your password';
-            }
-            return null;
-          },
+          obscureText: _obscurePassword,
         ),
         const SizedBox(height: 12.0),
+        const Text('Confirm Password'),
+        const SizedBox(height: 8.0),
         TextFormField(
           controller: _confirmPasswordController,
-          decoration: const InputDecoration(
-            labelText: 'Confirm Password',
+          decoration: InputDecoration(
             hintText: 'Confirm your password',
-            border: OutlineInputBorder(
+            hintStyle: const TextStyle(color: Colors.grey),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
             ),
             contentPadding:
-                EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            suffixIcon: IconButton(
+              icon: Icon(_obscureConfirmPassword
+                  ? Icons.visibility
+                  : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  _obscureConfirmPassword = !_obscureConfirmPassword;
+                });
+              },
+            ),
           ),
-          obscureText: true,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please confirm your password';
-            }
-            return null;
-          },
+          obscureText: _obscureConfirmPassword,
         ),
         const SizedBox(height: 24.0),
         ElevatedButton(
