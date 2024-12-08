@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:jawa_app/product/models/model.dart';
-import 'package:jawa_app/shared/models/sharedmodel.dart'; // Ensure ProductEntry model is available
+import 'package:jawa_app/product/models/modelkomen.dart'; // Pastikan model komen ada
+import 'package:jawa_app/shared/models/sharedmodel.dart'; // Pastikan model ProductEntry tersedia
 
 class CommentPage extends StatefulWidget {
   final ProductEntry product;
@@ -15,18 +15,18 @@ class CommentPage extends StatefulWidget {
 
 class _CommentPageState extends State<CommentPage> {
   final TextEditingController _commentController = TextEditingController();
-  final List<Comment> _comments = []; // List to store comments
+  final List<Comment> _comments = []; // List untuk menyimpan komentar
 
   @override
   void initState() {
     super.initState();
-    loadComments(); // Memuat komentar saat halaman pertama kali dibuka
+    loadComments(); // Memuat komentar saat halaman dibuka
   }
 
   // Fungsi untuk memuat komentar dari server
   Future<void> loadComments() async {
     final response = await http.get(
-      Uri.parse('http://127.0.0.1:8000/get_comments/${widget.product.uuid}/'),  // Endpoint untuk mengambil komentar
+      Uri.parse('http://127.0.0.1:8000/products/comments/'),  // Endpoint untuk fetch komentar
     );
 
     if (response.statusCode == 200) {
@@ -34,7 +34,7 @@ class _CommentPageState extends State<CommentPage> {
       setState(() {
         _comments.clear();
         for (var commentJson in data['comments']) {
-          _comments.add(Comment.fromJson(commentJson));  // Mengubah data JSON menjadi objek Comment
+          _comments.add(Comment.fromJson(commentJson));  // Mengubah JSON menjadi objek Comment
         }
       });
     } else {
@@ -42,12 +42,11 @@ class _CommentPageState extends State<CommentPage> {
     }
   }
 
-  // Fungsi untuk menambahkan komentar
-  Future<void> addCommentToProduct(String commentText, String token) async {
-    final url = Uri.parse('http://127.0.0.1:8000/products/review_products');  // Endpoint untuk menambahkan komentar
+  // Fungsi untuk menambahkan komentar tanpa token
+  Future<void> addCommentToProduct(String commentText) async {
+    final url = Uri.parse('http://127.0.0.1:8000/products/products/add_comment_flutter/');  // Endpoint untuk menambahkan komentar
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',  // Jika menggunakan autentikasi dengan token
     };
 
     final body = json.encode({
@@ -60,9 +59,9 @@ class _CommentPageState extends State<CommentPage> {
     if (response.statusCode == 200) {
       final responseBody = json.decode(response.body);
       print('Comment added successfully: ${responseBody["message"]}');
-      loadComments();  // Muat ulang komentar setelah berhasil menambah komentar baru
+      loadComments();  // Reload comments after adding a new one
     } else {
-      print('Failed to add comment: ${response.body}');
+      print('Failed to add comment: ${response.statusCode} - ${response.body}');
     }
   }
 
@@ -74,17 +73,17 @@ class _CommentPageState extends State<CommentPage> {
       ),
       body: Stack(
         children: [
-          // Background Container for Scrollable Comments
+          // Container untuk komentar yang dapat discroll
           SingleChildScrollView(
-            padding: const EdgeInsets.only(top: 350), // Adjust for the new image height
+            padding: const EdgeInsets.only(top: 350), // Sesuaikan padding untuk tinggi gambar
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Comments List
+                  // List Komentar
                   ListView.builder(
-                    shrinkWrap: true, // Avoid overflow issues
+                    shrinkWrap: true, // Menghindari overflow
                     itemCount: _comments.length,
                     itemBuilder: (context, index) {
                       final comment = _comments[index];
@@ -92,7 +91,7 @@ class _CommentPageState extends State<CommentPage> {
                     },
                   ),
 
-                  // Comment Input Field
+                  // Input Field untuk komentar
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextField(
@@ -106,15 +105,13 @@ class _CommentPageState extends State<CommentPage> {
                     ),
                   ),
 
-                  // Submit Button
+                  // Tombol Submit
                   ElevatedButton(
                     onPressed: () {
                       final commentText = _commentController.text;
                       if (commentText.isNotEmpty) {
-                        // Misalnya gunakan token hardcode atau token dari penyimpanan
-                        String token = "your_auth_token";  // Ganti dengan token yang sebenarnya
-                        addCommentToProduct(commentText, token);
-                        _commentController.clear(); // Clear input after submitting
+                        addCommentToProduct(commentText); // Menambahkan komentar
+                        _commentController.clear(); // Menghapus input setelah dikirim
                       }
                     },
                     child: const Text("Submit Comment"),
@@ -124,7 +121,7 @@ class _CommentPageState extends State<CommentPage> {
             ),
           ),
 
-          // Fixed Image at the Top
+          // Gambar Produk di bagian atas
           Positioned(
             top: 0,
             left: 0,
@@ -133,25 +130,8 @@ class _CommentPageState extends State<CommentPage> {
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
                 widget.product.imgUrl,
-                height: 350, // Set the height of the image to 350
-                width: MediaQuery.of(context).size.width, // Full-width image
+                height: 300,  // Sesuaikan tinggi dengan desain
                 fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded / 
-                            (loadingProgress.expectedTotalBytes ?? 1)
-                          : null,
-                    ),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return Icon(Icons.error, size: 350); // Fallback icon if image fails to load
-                },
               ),
             ),
           ),
@@ -168,26 +148,24 @@ class CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              offset: Offset(0, 2),
-              blurRadius: 6,
-            ),
-          ],
-        ),
-        child: Text(
-          comment,
-          style: const TextStyle(fontSize: 16),
-        ),
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(comment),
       ),
+    );
+  }
+}
+
+class Comment {
+  final String comment;
+
+  Comment({required this.comment});
+
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
+      comment: json['comment'],
     );
   }
 }
