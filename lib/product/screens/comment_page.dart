@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jawa_app/product/models/modelkomen.dart'; // Pastikan model komen ada
-import 'package:jawa_app/shared/models/sharedmodel.dart'; // Pastikan model ProductEntry tersedia
+import 'package:jawa_app/product/models/sharedmodel.dart'; // Pastikan model ProductEntry tersedia
 
 class CommentPage extends StatefulWidget {
   final ProductEntry product;
@@ -26,7 +26,8 @@ class _CommentPageState extends State<CommentPage> {
   // Fungsi untuk memuat komentar dari server
   Future<void> loadComments() async {
     final response = await http.get(
-      Uri.parse('http://127.0.0.1:8000/products/comments/'),  // Endpoint untuk fetch komentar
+      Uri.parse(
+          'http://127.0.0.1:8000/products/comments/'), // Endpoint untuk fetch komentar
     );
 
     if (response.statusCode == 200) {
@@ -34,7 +35,8 @@ class _CommentPageState extends State<CommentPage> {
       setState(() {
         _comments.clear();
         for (var commentJson in data['comments']) {
-          _comments.add(Comment.fromJson(commentJson));  // Mengubah JSON menjadi objek Comment
+          _comments.add(Comment.fromJson(
+              commentJson)); // Mengubah JSON menjadi objek Comment
         }
       });
     } else {
@@ -44,7 +46,8 @@ class _CommentPageState extends State<CommentPage> {
 
   // Fungsi untuk menambahkan komentar tanpa token
   Future<void> addCommentToProduct(String commentText) async {
-    final url = Uri.parse('http://127.0.0.1:8000/products/products/add_comment_flutter/');  // Endpoint untuk menambahkan komentar
+    final url = Uri.parse(
+        'http://127.0.0.1:8000/products/products/add_comment_flutter/'); // Endpoint untuk menambahkan komentar
     final headers = {
       'Content-Type': 'application/json',
     };
@@ -59,7 +62,7 @@ class _CommentPageState extends State<CommentPage> {
     if (response.statusCode == 200) {
       final responseBody = json.decode(response.body);
       print('Comment added successfully: ${responseBody["message"]}');
-      loadComments();  // Reload comments after adding a new one
+      loadComments(); // Reload comments after adding a new one
     } else {
       print('Failed to add comment: ${response.statusCode} - ${response.body}');
     }
@@ -75,7 +78,8 @@ class _CommentPageState extends State<CommentPage> {
         children: [
           // Container untuk komentar yang dapat discroll
           SingleChildScrollView(
-            padding: const EdgeInsets.only(top: 350), // Sesuaikan padding untuk tinggi gambar
+            padding: const EdgeInsets.only(
+                top: 350), // Sesuaikan padding untuk tinggi gambar
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -110,8 +114,10 @@ class _CommentPageState extends State<CommentPage> {
                     onPressed: () {
                       final commentText = _commentController.text;
                       if (commentText.isNotEmpty) {
-                        addCommentToProduct(commentText); // Menambahkan komentar
-                        _commentController.clear(); // Menghapus input setelah dikirim
+                        addCommentToProduct(
+                            commentText); // Menambahkan komentar
+                        _commentController
+                            .clear(); // Menghapus input setelah dikirim
                       }
                     },
                     child: const Text("Submit Comment"),
@@ -130,7 +136,7 @@ class _CommentPageState extends State<CommentPage> {
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
                 widget.product.imgUrl,
-                height: 300,  // Sesuaikan tinggi dengan desain
+                height: 300, // Sesuaikan tinggi dengan desain
                 fit: BoxFit.cover,
               ),
             ),

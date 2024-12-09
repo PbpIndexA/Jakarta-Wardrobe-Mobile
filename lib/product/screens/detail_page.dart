@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:jawa_app/product/screens/comment_page.dart';
 import 'package:jawa_app/product/screens/review_page.dart';
-import 'package:jawa_app/shared/models/sharedmodel.dart';
+import 'package:jawa_app/product/models/sharedmodel.dart';
 
 class DetailDialog extends StatelessWidget {
   final ProductEntry product;
