@@ -33,7 +33,7 @@ class _ProductListPageState extends State<ProductListPage> {
         await request.get('http://127.0.0.1:8000/user_choices/json/');
 
     print(response);
-    
+
     setState(() {
       likedUuids =
           response.map<String>((item) => item['uuid'] as String).toList();
