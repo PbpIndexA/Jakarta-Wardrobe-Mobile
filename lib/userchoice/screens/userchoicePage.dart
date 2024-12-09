@@ -1,47 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:jawa_app/product/screens/detailpage.dart';
-import 'package:jawa_app/shared/models/sharedmodel.dart';
+import 'package:jawa_app/userchoice/models/userchoice.dart';
 import 'package:jawa_app/shared/widgets/drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
-class ProductListPage extends StatefulWidget {
-  const ProductListPage({super.key});
+class UserChoicePage extends StatefulWidget {
+  const UserChoicePage({super.key});
 
   @override
-  State<ProductListPage> createState() => _ProductListPageState();
+  State<UserChoicePage> createState() => _UserChoicePageState();
 }
 
-class _ProductListPageState extends State<ProductListPage> {
-  Future<List<ProductEntry>> fetchProducts(CookieRequest request) async {
-    final response = await request.get('http://localhost:8000/products/json/');
+class _UserChoicePageState extends State<UserChoicePage> {
+  Future<List<UserChoice>> fetchUserChoices(CookieRequest request) async {
+    // Fetch data from the Django backend
+    final response =
+        await request.get('http://127.0.0.1:8000/user_choices/json/');
 
-    // Decode JSON response
-    var data = response;
-
-    // Convert JSON to ProductEntry objects
-    List<ProductEntry> listProducts = [];
-    for (var item in data) {
-      if (item != null) {
-        listProducts.add(ProductEntry.fromJson(item));
+    // Convert JSON data to List<UserChoice>
+    List<UserChoice> userChoices = [];
+    for (var d in response) {
+      if (d != null) {
+        userChoices.add(UserChoice.fromJson(d));
       }
     }
-    return listProducts;
+    return userChoices;
   }
 
   @override
   Widget build(BuildContext context) {
-    final request = context.watch<CookieRequest>();
+    final cookieRequest = context.watch<CookieRequest>();
     const String defaultImageUrl = 'https://thenblank.com/cdn/shop/products/MenBermudaPants_Fern_2_360x.jpg?v=1665997444'; // Default image URL
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('List Produk'),
+        title: const Text('User Choices'),
       ),
       drawer: const LeftDrawer(),
       body: FutureBuilder(
-        future: fetchProducts(request),
-        builder: (context, AsyncSnapshot<List<ProductEntry>> snapshot) {
+        future: fetchUserChoices(cookieRequest),
+        builder: (context, AsyncSnapshot<List<UserChoice>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
@@ -62,21 +60,32 @@ class _ProductListPageState extends State<ProductListPage> {
             return GridView.builder(
               padding: const EdgeInsets.all(12.0),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // 2 columns for consistent layout
+                crossAxisCount: 2, // 2 columns
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 childAspectRatio: 3 / 4.5,
               ),
               itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                final product = snapshot.data![index];
+              itemBuilder: (_, index) {
+                final choice = snapshot.data![index];
                 return GestureDetector(
                   onTap: () {
-                    // Navigate to detail page
+                    // Navigate or handle tap for user choice
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) {
-                        return DetailDialog(product: product);
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(choice.name),
+                          content: Text("Details for ${choice.name}"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Close"),
+                            )
+                          ],
+                        );
                       },
                     );
                   },
@@ -95,13 +104,13 @@ class _ProductListPageState extends State<ProductListPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Product Image
+                        // Image Section
                         ClipRRect(
                           borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(12.0),
                           ),
                           child: Image.network(
-                            product.imgUrl.isNotEmpty ? product.imgUrl : defaultImageUrl,
+                            choice.imgUrl.isNotEmpty ? choice.imgUrl : defaultImageUrl,
                             height: 150,
                             width: double.infinity,
                             fit: BoxFit.cover,
@@ -116,7 +125,7 @@ class _ProductListPageState extends State<ProductListPage> {
                             },
                           ),
                         ),
-                        // Product Details
+                        // Content Section
                         Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
@@ -124,7 +133,7 @@ class _ProductListPageState extends State<ProductListPage> {
                             children: [
                               // Name
                               Text(
-                                product.name,
+                                choice.name,
                                 style: const TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold,
@@ -135,7 +144,7 @@ class _ProductListPageState extends State<ProductListPage> {
                               const SizedBox(height: 6),
                               // Category
                               Text(
-                                product.category.name,
+                                choice.category,
                                 style: const TextStyle(
                                   fontSize: 14.0,
                                   color: Colors.grey,
@@ -144,7 +153,7 @@ class _ProductListPageState extends State<ProductListPage> {
                               const SizedBox(height: 6),
                               // Price
                               Text(
-                                "Rp ${product.price}",
+                                "Rp ${choice.price}",
                                 style: const TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.bold,

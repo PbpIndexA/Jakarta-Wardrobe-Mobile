@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jawa_app/menu.dart';
+import 'package:jawa_app/home.dart';
+import 'package:jawa_app/userchoice/screens/userchoicePage.dart';
 import 'package:jawa_app/product/screens/listproduct.dart';
 
 class LeftDrawer extends StatelessWidget {
@@ -17,7 +18,7 @@ class LeftDrawer extends StatelessWidget {
             child: const Column(
               children: [
                 Text(
-                  'Mental Health Tracker',
+                  'Jawa App',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 24,
@@ -32,30 +33,41 @@ class LeftDrawer extends StatelessWidget {
               ],
             ),
           ),
-            ListTile(
-              leading: const Icon(Icons.home_outlined),
-              title: const Text('Halaman Utama'),
-              // Bagian redirection ke MyHomePage
-              onTap: () {
-                Navigator.pushReplacement(
+          ListTile(
+            leading: const Icon(Icons.home_outlined),
+            title: const Text('Homepage'),
+            // Bagian redirection ke MyHomePage
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyHomePage(),
+                  ));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_reaction_rounded),
+            title: const Text('User Choices'),
+            onTap: () {
+                // Route menu ke halaman mood
+                Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => MyHomePage(),
-                    ));
-              },
-            ),
-              ListTile(
-              leading: const Icon(Icons.add_reaction_rounded),
-              title: const Text('List Produk'),
-              // Bagian redirection ke MyHomePage
-              onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                    builder: (context) => const ProductListPage(), // Rute menuju ProductListPage
-                    ));
-              },
-            ),
+                    MaterialPageRoute(builder: (context) => const UserChoicePage()),
+                );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_reaction_rounded),
+            title: const Text('List Produk'),
+            // Bagian redirection ke MyHomePage
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                  builder: (context) => const ProductListPage(), // Rute menuju ProductListPage
+                  ));
+            },
+          ),
         ],
       ),
     );
