@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jawa_app/home.dart';
-import 'package:jawa_app/userchoice/screens/userchoicePage.dart';
-import 'package:jawa_app/product/screens/listproduct.dart';
+import 'package:jawa_app/userchoice/screens/userchoice_page.dart';
+import 'package:jawa_app/product/screens/list_product_page.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
