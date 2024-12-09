@@ -14,10 +14,8 @@ class UserChoicePage extends StatefulWidget {
 class _UserChoicePageState extends State<UserChoicePage> {
   Future<List<UserChoice>> fetchUserChoices(CookieRequest request) async {
     // Fetch data from the Django backend
-    final response = await request.get('http://127.0.0.1:8000/user_choices/json/');
-
-    // Debug: Print the raw response
-    print("Raw Response: $response");
+    final response =
+        await request.get('http://127.0.0.1:8000/user_choices/json/');
 
     // Convert JSON data to List<UserChoice>
     List<UserChoice> userChoices = [];
@@ -32,6 +30,8 @@ class _UserChoicePageState extends State<UserChoicePage> {
   @override
   Widget build(BuildContext context) {
     final cookieRequest = context.watch<CookieRequest>();
+    const String defaultImageUrl = 'https://thenblank.com/cdn/shop/products/MenBermudaPants_Fern_2_360x.jpg?v=1665997444'; // Default image URL
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Choices'),
@@ -45,70 +45,126 @@ class _UserChoicePageState extends State<UserChoicePage> {
           } else if (snapshot.hasError) {
             return Center(
               child: Text(
-                'Error: ${snapshot.error}',
-                style: const TextStyle(color: Colors.red),
+                'Terjadi kesalahan: ${snapshot.error}',
+                style: const TextStyle(color: Colors.red, fontSize: 16),
               ),
             );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(
               child: Text(
-                'No user choices available.',
-                style: TextStyle(fontSize: 20, color: Color(0xff59A5D8)),
+                'Belum ada produk yang tersedia.',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
             );
           } else {
-            return ListView.builder(
+            return GridView.builder(
+              padding: const EdgeInsets.all(12.0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // 2 columns
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 3 / 4.5,
+              ),
               itemCount: snapshot.data!.length,
               itemBuilder: (_, index) {
                 final choice = snapshot.data![index];
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  padding: const EdgeInsets.all(20.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Name: ${choice.name}",
-                        style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      Text("Category: ${choice.category}"),
-                      const SizedBox(height: 10),
-                      Text("Price: \$${choice.price}"),
-                      const SizedBox(height: 10),
-                      Text("Description: ${choice.desc}"),
-                      const SizedBox(height: 10),
-                      Text("Color: ${choice.color}"),
-                      const SizedBox(height: 10),
-                      Text("Stock: ${choice.stock}"),
-                      const SizedBox(height: 10),
-                      Text("Shop Name: ${choice.shopName}"),
-                      const SizedBox(height: 10),
-                      Text("Location: ${choice.location}"),
-                      const SizedBox(height: 10),
-                      Image.network(
-                        choice.imgUrl,
-                        height: 100,
-                        width: 100,
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(height: 10),
-                      Text("Average Rating: ${choice.avgRating}"),
-                      const SizedBox(height: 10),
-                      Text("Notes: ${choice.notes}"),
-                    ],
+                return GestureDetector(
+                  onTap: () {
+                    // Navigate or handle tap for user choice
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(choice.name),
+                          content: Text("Details for ${choice.name}"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Close"),
+                            )
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 6.0,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Image Section
+                        ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(12.0),
+                          ),
+                          child: Image.network(
+                            choice.imgUrl.isNotEmpty ? choice.imgUrl : defaultImageUrl,
+                            height: 150,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              // Render the default image if the image fails to load
+                              return Image.network(
+                                defaultImageUrl,
+                                height: 150,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          ),
+                        ),
+                        // Content Section
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Name
+                              Text(
+                                choice.name,
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 6),
+                              // Category
+                              Text(
+                                choice.category,
+                                style: const TextStyle(
+                                  fontSize: 14.0,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              // Price
+                              Text(
+                                "Rp ${choice.price}",
+                                style: const TextStyle(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
