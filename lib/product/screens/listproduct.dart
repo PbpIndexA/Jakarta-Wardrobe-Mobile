@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jawa_app/product/screens/detailpage.dart';
 import 'package:jawa_app/shared/models/sharedmodel.dart';
 import 'package:jawa_app/shared/widgets/drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -56,167 +57,126 @@ class _ProductListPageState extends State<ProductListPage> {
               ),
             );
           } else {
-            return GridView.builder(
-              padding: const EdgeInsets.all(8.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-              ),
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                final product = snapshot.data![index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProductDetailPage(
-                          product: product,
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                int crossAxisCount =
+                    constraints.maxWidth > 600 ? 4 : 2; // Responsif
+
+                return GridView.builder(
+                  padding: const EdgeInsets.all(12.0),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    crossAxisSpacing: 24,
+                    mainAxisSpacing: 24,
+                    childAspectRatio: 3 / 4.5,
+                  ),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final product = snapshot.data![index];
+                    return GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return DetailDialog(product: product);
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(0, 2),
+                              blurRadius: 6,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Gambar produk dengan fallback
+                            ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(15),
+                              ),
+                              child: product.imgUrl.isNotEmpty
+                                  ? Image.network(
+                                      product.imgUrl,
+                                      height: 300, // Ukuran tetap untuk gambar
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Container(
+                                          height: 300, // Menjaga ukuran tetap
+                                          color: Colors.grey[200],
+                                          child: Icon(
+                                            Icons.image_not_supported,
+                                            size: 50,
+                                            color: Colors.grey[600],
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  : Container(
+                                      height: 300, // Ukuran tetap untuk gambar
+                                      color: Colors.grey[200],
+                                      child: Icon(
+                                        Icons.image_not_supported,
+                                        size: 50,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Nama produk
+                                  Text(
+                                    product.name,
+                                    style: const TextStyle(
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  // Harga produk
+                                  Text(
+                                    "Rp ${product.price}",
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  // Kategori produk
+                                  Text(
+                                    product.category.name,
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     );
                   },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 4,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(12),
-                          ),
-                          child: product.imgUrl.isNotEmpty
-                              ? Image.network(
-                                  product.imgUrl,
-                                  height: 120,
-                                  width: 120,
-                                  fit: BoxFit.cover,
-                                  // errorBuilder: (context, error, stackTrace) {
-                                  //   return const Center(
-                                  //     child: Icon(Icons.broken_image, size: 50),
-                                  //   );
-                                  // },
-                                )
-                              : const SizedBox(
-                                  height: 120,
-                                  child: Center(child: Icon(Icons.image, size: 50)),
-                                ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                product.name,
-                                style: const TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                "Rp ${product.price}",
-                                style: const TextStyle(fontSize: 14, color: Colors.green),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                "Kategori: ${product.category.name}",
-                                style: const TextStyle(fontSize: 12, color: Colors.grey),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                "Toko: ${product.shopName.name}",
-                                style: const TextStyle(fontSize: 12, color: Colors.grey),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                "Stock: ${product.stock}",
-                                style: const TextStyle(fontSize: 12, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                 );
               },
             );
           }
         },
-      ),
-    );
-  }
-}
-
-class ProductDetailPage extends StatelessWidget {
-  final ProductEntry product;
-
-  const ProductDetailPage({super.key, required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(product.name),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Image.network(
-                product.imgUrl,
-                height: 200,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.broken_image, size: 100);
-                },
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              product.name,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "Rp ${product.price}",
-              style: const TextStyle(fontSize: 18, color: Colors.green),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "Deskripsi: ${product.desc}",
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "Warna: ${product.color}",
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "Kategori: ${product.category.name}",
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "Toko: ${product.shopName.name}",
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "Lokasi: ${product.location}",
-              style: const TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
       ),
     );
   }
