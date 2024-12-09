@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:jawa_app/menu.dart';
+import 'package:jawa_app/home.dart';
 import 'package:jawa_app/auth/screens/register.dart';
 
 void main() {
