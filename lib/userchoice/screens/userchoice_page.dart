@@ -14,10 +14,7 @@ class UserChoicePage extends StatefulWidget {
 class _UserChoicePageState extends State<UserChoicePage> {
   Future<List<UserChoice>> fetchUserChoices(CookieRequest request) async {
     // Fetch data from the Django backend
-    final response =
-        await request.get('http://127.0.0.1:8000/user_choices/json/');
-
-    print(response);
+    final response = await request.get('http://127.0.0.1:8000/user_choices/json/');
 
     // Convert JSON data to List<UserChoice>
     List<UserChoice> userChoices = [];
@@ -27,7 +24,23 @@ class _UserChoicePageState extends State<UserChoicePage> {
       }
     }
     return userChoices;
-    
+  }
+
+  Future<void> deleteUserChoice(CookieRequest request, String uuid) async {
+    // Perform DELETE request to remove the product from user choices
+    final response = await request.post(
+      'http://127.0.0.1:8000/user_choices/delete_user_choices/$uuid',
+      {}
+    );
+    if (response['status'] == 'success') {
+      // Successfully deleted
+      setState(() {});
+    } else {
+      // Handle error response
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to remove item: ${response['message']}")),
+      );
+    }
   }
 
   @override
@@ -138,28 +151,16 @@ class _UserChoicePageState extends State<UserChoicePage> {
                             Positioned(
                               top: 8,
                               right: 8,
-                              child: StatefulBuilder(
-                                builder: (context, setState) {
-                                  return IconButton(
-                                    icon: Icon(
-                                      isLiked
-                                          ? Icons.favorite
-                                          : Icons.favorite_border,
-                                      color: isLiked ? Colors.red : Colors.grey,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        isLiked = !isLiked;
-                                        if (isLiked) {
-                                          // TODO: Add this product back to user choices
-                                          print("Liked again: ${choice.name}");
-                                        } else {
-                                          // TODO: Remove this product from user choices
-                                          print("Unliked: ${choice.name}");
-                                        }
-                                      });
-                                    },
-                                  );
+                              child: IconButton(
+                                icon: Icon(
+                                  isLiked ? Icons.favorite : Icons.favorite_border,
+                                  color: isLiked ? Colors.red : Colors.grey,
+                                ),
+                                onPressed: () {
+                                  // Perform deletion when unliked
+                                  if (isLiked) {
+                                    deleteUserChoice(cookieRequest, choice.uuid);
+                                  }
                                 },
                               ),
                             ),
