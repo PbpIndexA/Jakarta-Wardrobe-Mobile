@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jawa_app/shared/models/sharedmodel.dart';
+import 'package:jawa_app/product/models/sharedmodel.dart';
 
 class ReviewPage extends StatelessWidget {
   final ProductEntry product;

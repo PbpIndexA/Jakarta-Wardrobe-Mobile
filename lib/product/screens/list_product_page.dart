@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jawa_app/product/screens/detailpage.dart';
-import 'package:jawa_app/shared/models/sharedmodel.dart';
+import 'package:jawa_app/product/screens/detail_page.dart';
+import 'package:jawa_app/product/models/sharedmodel.dart';
 import 'package:jawa_app/shared/widgets/drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
