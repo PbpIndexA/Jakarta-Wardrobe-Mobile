@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jawa_app/product/models/modelkomen.dart'; // Pastikan model komen ada
-import 'package:jawa_app/product/models/sharedmodel.dart'; // Pastikan model ProductEntry tersedia
+import 'package:jawa_app/product/models/sharedmodel.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart'; // Pastikan model ProductEntry tersedia
 
 class CommentPage extends StatefulWidget {
   final ProductEntry product;
@@ -20,15 +22,14 @@ class _CommentPageState extends State<CommentPage> {
   @override
   void initState() {
     super.initState();
-    loadComments(); // Memuat komentar saat halaman dibuka
+    final request = Provider.of<CookieRequest>(context, listen: false);
+    loadComments(request); // Memuat komentar saat halaman dibuka
   }
 
   // Fungsi untuk memuat komentar dari server
-  Future<void> loadComments() async {
-    final response = await http.get(
-      Uri.parse(
-          'http://127.0.0.1:8000/products/comments/'), // Endpoint untuk fetch komentar
-    );
+  Future<void> loadComments(CookieRequest request) async {
+    final response =
+        await request.get('http://127.0.0.1:8000/products/comments/');
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -45,31 +46,35 @@ class _CommentPageState extends State<CommentPage> {
   }
 
   // Fungsi untuk menambahkan komentar tanpa token
-  Future<void> addCommentToProduct(String commentText) async {
-    final url = Uri.parse(
-        'http://127.0.0.1:8000/products/products/add_comment_flutter/'); // Endpoint untuk menambahkan komentar
-    final headers = {
-      'Content-Type': 'application/json',
+  Future<void> addCommentToProduct(
+      String commentText, CookieRequest request) async {
+    final body = {
+      'product_id': widget.product.uuid, // The product UUID
+      'comment': commentText, // The comment text
     };
+    try {
+      // Sending the POST request
+      final response = await request.post(
+          'http://127.0.0.1:8000/products/add_comment/', body);
 
-    final body = json.encode({
-      'product_id': widget.product.uuid,
-      'comment': commentText,
-    });
-
-    final response = await http.post(url, headers: headers, body: body);
-
-    if (response.statusCode == 200) {
-      final responseBody = json.decode(response.body);
-      print('Comment added successfully: ${responseBody["message"]}');
-      loadComments(); // Reload comments after adding a new one
-    } else {
-      print('Failed to add comment: ${response.statusCode} - ${response.body}');
+      // Checking the response status
+      if (response['message'] == 'Comment added successfully') {
+        print('Comment added successfully: ${response["message"]}');
+        loadComments(request); // Reload comments after adding a new one
+      } else {
+        print('Failed to add comment: ${response['message']}');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
     }
+    print("HEREEEEE");
+    print(_comments);
   }
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Product Comments"),
@@ -115,7 +120,7 @@ class _CommentPageState extends State<CommentPage> {
                       final commentText = _commentController.text;
                       if (commentText.isNotEmpty) {
                         addCommentToProduct(
-                            commentText); // Menambahkan komentar
+                            commentText, request); // Menambahkan komentar
                         _commentController
                             .clear(); // Menghapus input setelah dikirim
                       }
