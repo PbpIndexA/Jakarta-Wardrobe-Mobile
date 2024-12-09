@@ -14,8 +14,7 @@ class UserChoicePage extends StatefulWidget {
 class _UserChoicePageState extends State<UserChoicePage> {
   Future<List<UserChoice>> fetchUserChoices(CookieRequest request) async {
     // Fetch data from the Django backend
-    final response =
-        await request.get('http://127.0.0.1:8000/user_choices/json/');
+    final response = await request.get('http://127.0.0.1:8000/user_choices/json/');
 
     // Convert JSON data to List<UserChoice>
     List<UserChoice> userChoices = [];
@@ -27,10 +26,28 @@ class _UserChoicePageState extends State<UserChoicePage> {
     return userChoices;
   }
 
+  Future<void> deleteUserChoice(CookieRequest request, String uuid) async {
+    // Perform DELETE request to remove the product from user choices
+    final response = await request.post(
+      'http://127.0.0.1:8000/user_choices/delete_user_choices/$uuid',
+      {}
+    );
+    if (response['status'] == 'success') {
+      // Successfully deleted
+      setState(() {});
+    } else {
+      // Handle error response
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to remove item: ${response['message']}")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final cookieRequest = context.watch<CookieRequest>();
-    const String defaultImageUrl = 'https://thenblank.com/cdn/shop/products/MenBermudaPants_Fern_2_360x.jpg?v=1665997444'; // Default image URL
+    const String defaultImageUrl =
+        'https://thenblank.com/cdn/shop/products/MenBermudaPants_Fern_2_360x.jpg?v=1665997444'; // Default image URL
 
     return Scaffold(
       appBar: AppBar(
@@ -68,6 +85,8 @@ class _UserChoicePageState extends State<UserChoicePage> {
               itemCount: snapshot.data!.length,
               itemBuilder: (_, index) {
                 final choice = snapshot.data![index];
+                bool isLiked = true; // Default state since it's in user choices
+
                 return GestureDetector(
                   onTap: () {
                     // Navigate or handle tap for user choice
@@ -104,26 +123,48 @@ class _UserChoicePageState extends State<UserChoicePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Image Section
-                        ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(12.0),
-                          ),
-                          child: Image.network(
-                            choice.imgUrl.isNotEmpty ? choice.imgUrl : defaultImageUrl,
-                            height: 150,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              // Render the default image if the image fails to load
-                              return Image.network(
-                                defaultImageUrl,
+                        // Image Section with Like Button
+                        Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(12.0),
+                              ),
+                              child: Image.network(
+                                choice.imgUrl.isNotEmpty
+                                    ? choice.imgUrl
+                                    : defaultImageUrl,
                                 height: 150,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
-                              );
-                            },
-                          ),
+                                errorBuilder: (context, error, stackTrace) {
+                                  // Render the default image if the image fails to load
+                                  return Image.network(
+                                    defaultImageUrl,
+                                    height: 150,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              ),
+                            ),
+                            Positioned(
+                              top: 8,
+                              right: 8,
+                              child: IconButton(
+                                icon: Icon(
+                                  isLiked ? Icons.favorite : Icons.favorite_border,
+                                  color: isLiked ? Colors.red : Colors.grey,
+                                ),
+                                onPressed: () {
+                                  // Perform deletion when unliked
+                                  if (isLiked) {
+                                    deleteUserChoice(cookieRequest, choice.uuid);
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                         // Content Section
                         Padding(

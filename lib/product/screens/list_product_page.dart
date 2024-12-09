@@ -13,13 +13,12 @@ class ProductListPage extends StatefulWidget {
 }
 
 class _ProductListPageState extends State<ProductListPage> {
+  List<String> likedUuids = []; // Local list to manage liked UUIDs
+
   Future<List<ProductEntry>> fetchProducts(CookieRequest request) async {
     final response = await request.get('http://localhost:8000/products/json/');
-
-    // Decode JSON response
     var data = response;
 
-    // Convert JSON to ProductEntry objects
     List<ProductEntry> listProducts = [];
     for (var item in data) {
       if (item != null) {
@@ -29,10 +28,56 @@ class _ProductListPageState extends State<ProductListPage> {
     return listProducts;
   }
 
+  Future<void> fetchLikedUuids(CookieRequest request) async {
+    final response =
+        await request.get('http://127.0.0.1:8000/user_choices/json/');
+
+    print(response);
+    
+    setState(() {
+      likedUuids =
+          response.map<String>((item) => item['uuid'] as String).toList();
+    });
+    print(likedUuids);
+  }
+
+  Future<void> toggleLike(
+      CookieRequest request, String uuid, bool isLiked) async {
+    if (isLiked) {
+      // Unlike: Send DELETE request
+      final response = await request.post(
+          'http://127.0.0.1:8000/user_choices/delete_user_choices/$uuid', {});
+      print(response);
+      if (response['status'] == 'success') {
+        setState(() {
+          likedUuids.remove(uuid);
+        });
+      }
+    } else {
+      // Like: Send POST request
+      final response = await request.post(
+          'http://127.0.0.1:8000/user_choices/add_user_choices/$uuid', {});
+      print(response);
+      if (response['status'] == 'success') {
+        setState(() {
+          likedUuids.add(uuid);
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final request = Provider.of<CookieRequest>(context, listen: false);
+    fetchLikedUuids(request); // Fetch liked UUIDs on initialization
+  }
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
-    const String defaultImageUrl = 'https://thenblank.com/cdn/shop/products/MenBermudaPants_Fern_2_360x.jpg?v=1665997444'; // Default image URL
+    const String defaultImageUrl =
+        'https://thenblank.com/cdn/shop/products/MenBermudaPants_Fern_2_360x.jpg?v=1665997444';
 
     return Scaffold(
       appBar: AppBar(
@@ -59,20 +104,22 @@ class _ProductListPageState extends State<ProductListPage> {
               ),
             );
           } else {
+            final products = snapshot.data!;
             return GridView.builder(
               padding: const EdgeInsets.all(12.0),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // 2 columns for consistent layout
+                crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 childAspectRatio: 3 / 4.5,
               ),
-              itemCount: snapshot.data!.length,
+              itemCount: products.length,
               itemBuilder: (context, index) {
-                final product = snapshot.data![index];
+                final product = products[index];
+                bool isLiked = likedUuids.contains(product.uuid);
+
                 return GestureDetector(
                   onTap: () {
-                    // Navigate to detail page
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -95,26 +142,46 @@ class _ProductListPageState extends State<ProductListPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Product Image
-                        ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(12.0),
-                          ),
-                          child: Image.network(
-                            product.imgUrl.isNotEmpty ? product.imgUrl : defaultImageUrl,
-                            height: 150,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              // Render the default image if the image fails to load
-                              return Image.network(
-                                defaultImageUrl,
+                        // Product Image with Like Button Overlay
+                        Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(12.0),
+                              ),
+                              child: Image.network(
+                                product.imgUrl.isNotEmpty
+                                    ? product.imgUrl
+                                    : defaultImageUrl,
                                 height: 150,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
-                              );
-                            },
-                          ),
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.network(
+                                    defaultImageUrl,
+                                    height: 150,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              ),
+                            ),
+                            Positioned(
+                              top: 8,
+                              right: 8,
+                              child: IconButton(
+                                icon: Icon(
+                                  isLiked
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: isLiked ? Colors.red : Colors.grey,
+                                ),
+                                onPressed: () {
+                                  toggleLike(request, product.uuid, isLiked);
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                         // Product Details
                         Padding(
@@ -122,7 +189,6 @@ class _ProductListPageState extends State<ProductListPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Name
                               Text(
                                 product.name,
                                 style: const TextStyle(
@@ -133,7 +199,6 @@ class _ProductListPageState extends State<ProductListPage> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(height: 6),
-                              // Category
                               Text(
                                 product.category.name,
                                 style: const TextStyle(
@@ -142,7 +207,6 @@ class _ProductListPageState extends State<ProductListPage> {
                                 ),
                               ),
                               const SizedBox(height: 6),
-                              // Price
                               Text(
                                 "Rp ${product.price}",
                                 style: const TextStyle(
