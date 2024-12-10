@@ -179,7 +179,7 @@ Positioned(
           },
           child: CircleAvatar(
             radius: 24.0,
-            backgroundColor: Colors.purple, // Warna background tombol
+            backgroundColor: const Color.fromARGB(255, 0, 0, 0), // Warna background tombol
             child: const Icon(
               Icons.send, // Ikon "send" seperti WhatsApp
               color: Colors.white, // Warna ikon
