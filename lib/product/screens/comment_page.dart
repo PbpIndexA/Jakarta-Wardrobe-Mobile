@@ -26,24 +26,25 @@ class _CommentPageState extends State<CommentPage> {
     loadComments(request); // Memuat komentar saat halaman dibuka
   }
 
-  // Fungsi untuk memuat komentar dari server
-  Future<void> loadComments(CookieRequest request) async {
-    final response =
-        await request.get('http://127.0.0.1:8000/products/comments/');
+Future<void> loadComments(CookieRequest request) async {
+  final productId = widget.product.uuid;  // Ambil product_id dari widget
+  final response = await request.get('http://127.0.0.1:8000/products/products/$productId/comments/');
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
+  // Periksa apakah response sudah dalam format yang benar
+    if (response['comments'] != null) {
+      final data = response['comments']; // Akses langsung ke list komentar
       setState(() {
-        _comments.clear();
-        for (var commentJson in data['comments']) {
-          _comments.add(Comment.fromJson(
-              commentJson)); // Mengubah JSON menjadi objek Comment
+        _comments.clear(); // Bersihkan komentar sebelumnya
+
+        // Tambahkan semua komentar ke dalam _comments
+        for (var commentJson in data) {
+          _comments.add(Comment.fromJson(commentJson));
         }
       });
     } else {
-      print('Failed to load comments');
+      print('Failed to load comments: Unexpected response format');
     }
-  }
+}
 
   // Fungsi untuk menambahkan komentar tanpa token
   Future<void> addCommentToProduct(
@@ -59,124 +60,211 @@ class _CommentPageState extends State<CommentPage> {
 
       // Checking the response status
       if (response['message'] == 'Comment added successfully') {
-        print('Comment added successfully: ${response["message"]}');
         loadComments(request); // Reload comments after adding a new one
       } else {
-        print('Failed to add comment: ${response['message']}');
       }
     } catch (e) {
-      print('An error occurred: $e');
     }
-    print("HEREEEEE");
-    print(_comments);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final request = context.watch<CookieRequest>();
+@override
+Widget build(BuildContext context) {
+  final request = context.watch<CookieRequest>();
+  const String defaultImageUrl =
+      'https://thenblank.com/cdn/shop/products/MenBermudaPants_Fern_2_360x.jpg?v=1665997444'; // Default image URL
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Product Comments"),
-      ),
-      body: Stack(
-        children: [
-          // Container untuk komentar yang dapat discroll
-          SingleChildScrollView(
-            padding: const EdgeInsets.only(
-                top: 350), // Sesuaikan padding untuk tinggi gambar
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text("Product Comments"),
+    ),
+    body: Column(
+      children: [
+        // Gambar Produk
+        ClipRRect(
+          child: Image.network(
+            widget.product.imgUrl.isNotEmpty
+                ? widget.product.imgUrl
+                : defaultImageUrl,
+            height: 200, // Sesuaikan tinggi gambar
+            width: double.infinity,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Image.network(
+                defaultImageUrl,
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 8.0),
+
+        // Judul Komentar
+        Container(
+          width: double.infinity,
+          color: Colors.grey[200], // Background abu-abu untuk judul
+          padding: const EdgeInsets.all(12.0),
+          child: const Text(
+            "Komentar",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+          ),
+        ),
+
+        // List Komentar
+        Expanded(
+          child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // List Komentar
                   ListView.builder(
-                    shrinkWrap: true, // Menghindari overflow
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: _comments.length,
                     itemBuilder: (context, index) {
                       final comment = _comments[index];
-                      return CommentCard(comment: comment.comment);
+                      return CommentCard(comment: comment);
                     },
                   ),
+                  const SizedBox(height: 16.0),
 
-                  // Input Field untuk komentar
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: TextField(
-                      controller: _commentController,
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                        hintText: "Write a comment...",
-                        border: OutlineInputBorder(),
-                        contentPadding: const EdgeInsets.all(8),
-                      ),
-                    ),
-                  ),
-
-                  // Tombol Submit
-                  ElevatedButton(
-                    onPressed: () {
-                      final commentText = _commentController.text;
-                      if (commentText.isNotEmpty) {
-                        addCommentToProduct(
-                            commentText, request); // Menambahkan komentar
-                        _commentController
-                            .clear(); // Menghapus input setelah dikirim
-                      }
-                    },
-                    child: const Text("Submit Comment"),
-                  ),
                 ],
               ),
             ),
           ),
-
-          // Gambar Produk di bagian atas
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                widget.product.imgUrl,
-                height: 300, // Sesuaikan tinggi dengan desain
-                fit: BoxFit.cover,
+        ),
+// Bagian Fixed di Bawah
+Positioned(
+  bottom: 0,
+  left: 0,
+  right: 0,
+  child: Container(
+    color: Colors.white,
+    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+    child: Row(
+      children: [
+        // TextField untuk komentar
+        Expanded(
+          child: TextField(
+            controller: _commentController,
+            maxLines: 1, // Hanya satu baris
+            decoration: InputDecoration(
+              hintText: "Write a comment...",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(24.0), // Membulatkan sudut
+                borderSide: const BorderSide(color: Colors.grey),
               ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ), // Padding dalam text field
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
+        ),
+        const SizedBox(width: 8.0),
 
+        // Tombol Submit
+        GestureDetector(
+          onTap: () {
+            final commentText = _commentController.text;
+            if (commentText.isNotEmpty) {
+              addCommentToProduct(commentText, request);
+              _commentController.clear(); // Bersihkan input
+            }
+          },
+          child: CircleAvatar(
+            radius: 24.0,
+            backgroundColor: const Color.fromARGB(255, 0, 0, 0), // Warna background tombol
+            child: const Icon(
+              Icons.send, // Ikon "send" seperti WhatsApp
+              color: Colors.white, // Warna ikon
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+      ],
+    ),
+  );
+}
+}
 class CommentCard extends StatelessWidget {
-  final String comment;
+  final Comment comment; // Objek Comment
 
   const CommentCard({super.key, required this.comment});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(comment),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Nama user di-bold
+              Text(
+                "${comment.user} ", // User diikuti spasi
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14.0,
+                ),
+              ),
+              // Isi komentar di baris yang sama
+              Expanded(
+                child: Text(
+                  comment.comment,
+                  style: const TextStyle(fontSize: 14.0),
+                  overflow: TextOverflow.ellipsis, // Tambahkan ini jika komentar terlalu panjang
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4.0),
+
+          // Waktu komentar di bawahnya
+          Text(
+            comment.timestamp,
+            style: const TextStyle(
+              color: Colors.grey,
+              fontSize: 12.0,
+            ),
+          ),
+          const Divider(), // Garis bawah untuk pemisah
+        ],
       ),
     );
   }
 }
-
 class Comment {
+  final String user;
   final String comment;
+  final String timestamp;
 
-  Comment({required this.comment});
+  Comment({
+    required this.user,
+    required this.comment,
+    required this.timestamp,
+  });
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
+      user: json['user'],
       comment: json['comment'],
+      timestamp: json['timestamp'],
     );
+  }
+
+  @override
+  String toString() {
+    return 'Comment(user: $user, comment: $comment, timestamp: $timestamp)';
   }
 }
