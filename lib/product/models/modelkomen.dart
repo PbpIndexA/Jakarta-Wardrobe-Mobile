@@ -40,4 +40,17 @@ class Comment {
       throw Exception('Failed to load comments');
     }
   }
+
+    // Getter untuk nama user
+  String get getUser => user;
+
+  // Getter untuk timestamp
+  String get getTimestamp => timestamp;
+
+    @override
+  String toString() {
+    return 'Comment(user: $user, comment: $comment, timestamp: $timestamp)';
+  }
+
+
 }

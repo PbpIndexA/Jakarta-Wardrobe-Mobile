@@ -13,6 +13,10 @@ class DetailDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    const String defaultImageUrl =
+    'https://thenblank.com/cdn/shop/products/MenBermudaPants_Fern_2_360x.jpg?v=1665997444'; // Default image URL
+
+
 
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -36,9 +40,21 @@ class DetailDialog extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.network(
-                        product.imgUrl,
-                        height: double.infinity,
+                        product.imgUrl.isNotEmpty
+                          ? product.imgUrl
+                          : defaultImageUrl,
+
+                        height: 150,
                         fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.network(
+                            defaultImageUrl,
+                            height: 150,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          );
+                        },
+
                       ),
                     ),
                   ),
