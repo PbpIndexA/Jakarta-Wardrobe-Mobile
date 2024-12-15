@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jawa_app/auth/screens/login.dart';
+import 'package:jawa_app/profilepage/screens/updateprofile.dart';
 import 'package:jawa_app/userchoice/screens/userchoice_page.dart';
 import 'package:jawa_app/product/screens/list_product_page.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -20,7 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ProductListPage(),
     UserChoicePage(),
     GlobalChatPage(),
-    ProfilePage(),
+    ProfileFormPage(),
   ];
 
   void _onItemTapped(int index) {
