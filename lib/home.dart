@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jawa_app/auth/screens/login.dart';
 import 'package:jawa_app/userchoice/screens/userchoice_page.dart';
 import 'package:jawa_app/product/screens/list_product_page.dart';
+import 'package:jawa_app/globalchat/screens/forum_screen.dart';
+
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -267,12 +269,18 @@ class ItemHomepage {
 }
 
 // Dummy pages for navigation
+// class GlobalChatPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(child: Text('Global Chat Page')),
+//     );
+//   }
+// }
 class GlobalChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text('Global Chat Page')),
-    );
+    return const ForumScreen(); // Menggunakan ForumScreen yang sudah dibuat
   }
 }
 

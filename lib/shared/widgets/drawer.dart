@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jawa_app/home.dart';
 import 'package:jawa_app/userchoice/screens/userchoice_page.dart';
 import 'package:jawa_app/product/screens/list_product_page.dart';
+import 'package:jawa_app/globalchat/screens/forum_screen.dart';
+
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -68,6 +70,20 @@ class LeftDrawer extends StatelessWidget {
                   ));
             },
           ),
+          //  ListTile untuk Forum
+          ListTile(
+            leading: const Icon(Icons.forum),
+            title: const Text('Forums'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ForumScreen(),
+                ),
+              );
+            },
+          ),
+          
         ],
       ),
     );
