@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:jawa_app/home.dart';
 import 'package:jawa_app/product/screens/detail_page.dart';
 import 'package:jawa_app/product/models/sharedmodel.dart';
+import 'package:jawa_app/shared/bottom_navigation.dart';
 import 'package:jawa_app/shared/widgets/drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
 class ProductListPage extends StatefulWidget {
-  const ProductListPage({super.key});
+  final Category? category;
+
+  const ProductListPage({super.key, this.category});
 
   @override
   State<ProductListPage> createState() => _ProductListPageState();
 }
 
 class _ProductListPageState extends State<ProductListPage> {
+  int _selectedIndex = 1; // Set the initial index for ProductListPage
   List<String> likedUuids = []; // Local list to manage liked UUIDs
 
   Future<List<ProductEntry>> fetchProducts(CookieRequest request) async {
@@ -25,6 +30,13 @@ class _ProductListPageState extends State<ProductListPage> {
         listProducts.add(ProductEntry.fromJson(item));
       }
     }
+
+    if (widget.category != null) {
+      listProducts = listProducts
+          .where((product) => product.category == widget.category)
+          .toList();
+    }
+
     return listProducts;
   }
 
@@ -64,6 +76,18 @@ class _ProductListPageState extends State<ProductListPage> {
         });
       }
     }
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MyHomePage(),
+      ),
+    );
   }
 
   @override
@@ -226,6 +250,10 @@ class _ProductListPageState extends State<ProductListPage> {
             );
           }
         },
+      ),
+      bottomNavigationBar: BottomNavigation(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

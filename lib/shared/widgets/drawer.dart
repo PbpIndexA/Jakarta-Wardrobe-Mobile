@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jawa_app/article/screens/listarticle.dart';
 import 'package:jawa_app/home.dart';
 import 'package:jawa_app/userchoice/screens/userchoice_page.dart';
 import 'package:jawa_app/product/screens/list_product_page.dart';
@@ -84,6 +85,17 @@ class LeftDrawer extends StatelessWidget {
             },
           ),
           
+          ListTile(
+          leading: const Icon(Icons.article),
+          title: const Text('Artikel'),
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const ArticleListPage()),
+            );
+            },
+          ),
+
         ],
       ),
     );

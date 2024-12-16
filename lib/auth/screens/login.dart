@@ -138,12 +138,13 @@ class _LoginPageState extends State<LoginPage> {
         TextFormField(
           controller: _usernameController,
           decoration: const InputDecoration(
+            icon: Icon(Icons.person),
             hintText: 'Enter your username',
-            hintStyle: TextStyle(color: Colors.grey),
+            hintStyle: TextStyle(color: Color.fromARGB(255, 62, 57, 57)),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 borderSide: BorderSide(
-                  color: Colors.grey,
+                  color: Color.fromARGB(255, 60, 57, 57),
                   width: 2,
                 )),
             contentPadding:
@@ -156,6 +157,7 @@ class _LoginPageState extends State<LoginPage> {
         TextFormField(
           controller: _passwordController,
           decoration: InputDecoration(
+            icon: const Icon(Icons.lock),
             hintText: 'Enter your password',
             hintStyle: const TextStyle(color: Colors.grey),
             border: const OutlineInputBorder(
@@ -248,6 +250,7 @@ class _LoginPageState extends State<LoginPage> {
         TextFormField(
           controller: _usernameController,
           decoration: const InputDecoration(
+            icon: Icon(Icons.person),
             hintText: 'Enter your username',
             hintStyle: TextStyle(color: Colors.grey),
             border: OutlineInputBorder(

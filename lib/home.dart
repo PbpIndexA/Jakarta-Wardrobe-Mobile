@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jawa_app/auth/screens/login.dart';
+import 'package:jawa_app/product/models/sharedmodel.dart';
+import 'package:jawa_app/shared/bottom_navigation.dart';
 import 'package:jawa_app/userchoice/screens/userchoice_page.dart';
 import 'package:jawa_app/product/screens/list_product_page.dart';
 import 'package:jawa_app/globalchat/screens/forum_screen.dart';
@@ -35,46 +37,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: Color.fromARGB(255, 53, 52, 52),
-              ),
-              label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.shopping_bag,
-              color: Color.fromARGB(255, 53, 52, 52),
-            ),
-            label: 'Product',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.add_reaction_rounded,
-              color: Color.fromARGB(255, 53, 52, 52),
-            ),
-            label: 'User Choice',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.chat,
-              color: Color.fromARGB(255, 53, 52, 52),
-            ),
-            label: 'Global Chat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              color: Color.fromARGB(255, 53, 52, 52),
-            ),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color.fromARGB(255, 33, 32, 31),
-        onTap: _onItemTapped,
+      bottomNavigationBar: BottomNavigation(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }
@@ -133,6 +98,61 @@ class HomeScreen extends StatelessWidget {
                 }).toList(),
               ),
             ),
+            // Category Buttons
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Categories",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 15,
+                    children: Category.values.map((category) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ProductListPage(category: category),
+                            ),
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          textStyle: (MaterialStateProperty.all(
+                            TextStyle(
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                          )),
+                        ),
+                        child: Text(
+                          categoryValues.reverse[category]!,
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ),
             // Brands Section
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -172,6 +192,7 @@ class HomeScreen extends StatelessWidget {
                       }).toList(),
                     ),
                   ),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
