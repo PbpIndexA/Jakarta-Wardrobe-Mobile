@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:jawa_app/product/models/sharedmodel.dart' as sharedmodel;
@@ -17,7 +15,7 @@ class RatingPage extends StatefulWidget {
 class _RatingPageState extends State<RatingPage> {
   final List<Rating> _ratings = [];
   double _avgRating = 0.0;
-  int? _selectedRating; // Rating yang dipilih oleh pengguna
+  int? _selectedRating;
 
   @override
   void initState() {
@@ -64,15 +62,16 @@ class _RatingPageState extends State<RatingPage> {
         body,
       );
 
-      if (response['message'] == 'Rating submitted successfully') {
+      if (response['message'] == 'Rating added successfully') {
         fetchRatings(request);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Rating submitted successfully!')),
+          const SnackBar(content: Text('Rating added successfully')),
         );
       } else {
-        print("Failed to submit rating: ${response['message']}");
+        print("${response['message']}");
+        fetchRatings(request);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response['message'] ?? 'Failed to submit rating')),
+          SnackBar(content: Text(response['message'] ?? '')),
         );
       }
     } catch (e) {
@@ -90,77 +89,130 @@ class _RatingPageState extends State<RatingPage> {
       appBar: AppBar(
         title: Text(widget.product.name),
       ),
-      body: Column(
-        children: [
-          // Display product image
-          ClipRRect(
-            child: Image.network(
-              widget.product.imgUrl,
-              height: 250,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.image_not_supported, size: 250);
-              },
-            ),
-          ),
-          const SizedBox(height: 8.0),
-          Text(
-            "Average Rating: ${_avgRating.toStringAsFixed(1)}",
-            style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16.0),
-          Text(
-            "Select Your Rating",
-            style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(5, (index) {
-              final starIndex = index + 1;
-              return IconButton(
-                icon: Icon(
-                  _selectedRating != null && _selectedRating! >= starIndex
-                      ? Icons.star
-                      : Icons.star_border,
-                  color: Colors.amber,
-                  size: 32,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                    image: NetworkImage(widget.product.imgUrl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                onPressed: () {
-                  setState(() {
-                    _selectedRating = starIndex;
-                  });
-                },
-              );
-            }),
+                child: widget.product.imgUrl.isEmpty
+                    ? const Icon(Icons.image_not_supported, size: 150)
+                    : null,
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  const Text(
+                    "Average Rating:",
+                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 8.0),
+                  Row(
+                    children: List.generate(5, (index) {
+                      return Icon(
+                        index < _avgRating ? Icons.star : Icons.star_border,
+                        color: Colors.amber,
+                      );
+                    }),
+                  ),
+                  const SizedBox(width: 8.0),
+                  Text(
+                    "(${_avgRating.toStringAsFixed(1)})",
+                    style: const TextStyle(fontSize: 18.0),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              Center(
+                child: Column(
+                  children: [
+                    Text(
+                      "Select Your Rating",
+                      style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(5, (index) {
+                        final starIndex = index + 1;
+                        return IconButton(
+                          icon: Icon(
+                            _selectedRating != null && _selectedRating! >= starIndex
+                                ? Icons.star
+                                : Icons.star_border,
+                            color: Colors.amber,
+                            size: 32,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _selectedRating = starIndex;
+                            });
+                          },
+                        );
+                      }),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_selectedRating != null) {
+                          submitRating(_selectedRating!, request);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Please select a rating!')),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: const Color.fromARGB(255, 58, 56, 56),
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                      ),
+                      child: const Text('Submit Rating'),
+                    ),
+                    const SizedBox(height: 16.0),
+                    Text(
+                      "Rating Overview",
+                      style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8.0),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: DataTable(
+                        columns: const [
+                          DataColumn(label: Text('User', style: TextStyle(fontWeight: FontWeight.bold))),
+                          DataColumn(label: Text('Rating', style: TextStyle(fontWeight: FontWeight.bold))),
+                          DataColumn(label: Text('Timestamp', style: TextStyle(fontWeight: FontWeight.bold))),
+                        ],
+                        rows: _ratings
+                            .map(
+                              (rating) => DataRow(
+                                cells: [
+                                  DataCell(Text(rating.user)),
+                                  DataCell(Text(rating.rating.toString())),
+                                  DataCell(Text(rating.timestamp)),
+                                ],
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              if (_selectedRating != null) {
-                submitRating(_selectedRating!, request);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please select a rating!')),
-                );
-              }
-            },
-            child: const Text('Submit Rating'),
-          ),
-          const SizedBox(height: 16.0),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _ratings.length,
-              itemBuilder: (context, index) {
-                final rating = _ratings[index];
-                return ListTile(
-                  title: Text(rating.user),
-                  subtitle: Text("Rating: ${rating.rating}"),
-                  trailing: Text(rating.timestamp),
-                );
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
