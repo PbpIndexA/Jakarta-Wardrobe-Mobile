@@ -24,28 +24,77 @@ class _CreateForumScreenState extends State<CreateForumScreen> {
     'Other'
   ];
 
-  Future<void> createForum(CookieRequest request) async {
-    final body = jsonEncode({
-      'title': _titleController.text,
-      'description': _descriptionController.text,
-      'purpose': _purpose,
-    });
+  // Future<void> createForum(CookieRequest request) async {
+  //   final body = jsonEncode({
+  //     'title': _titleController.text,
+  //     'description': _descriptionController.text,
+  //     'purpose': _purpose,
+  //   });
 
+  //   try {
+  //     final response = await request.post(
+  //       'http://127.0.0.1:8000/globalChat/api/forum/create/',
+  //       body,
+  //     );
+
+  //     if (mounted) {
+  //       if (response != null && response['status'] == 'success') {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(
+  //             content: Text('Forum created successfully!'),
+  //             backgroundColor: Colors.green,
+  //           ),
+  //         );
+  //         // Kembali ke halaman sebelumnya (forum screen) dan kirim hasil true
+  //         Navigator.pop(context, true);
+  //       } else {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(
+  //             content: Text(response?['message'] ?? 'Failed to create forum'),
+  //             backgroundColor: Colors.red,
+  //           ),
+  //         );
+  //       }
+  //     }
+  //   } catch (e) {
+  //     if (mounted) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text("Error occurred while creating the forum."),
+  //           backgroundColor: Colors.red,
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
+  Future<void> createForum(CookieRequest request) async {
     try {
+      // Encode data sebagai JSON string
+      final body = jsonEncode({
+        'title': _titleController.text,
+        'description': _descriptionController.text,
+        'purpose': _purpose,
+      });
+
+      print("Sending data: $body"); // Debug print
+
       final response = await request.post(
         'http://127.0.0.1:8000/globalChat/api/forum/create/',
         body,
       );
 
+      print("Response received: $response"); // Debug print
+
       if (mounted) {
-        if (response != null && response['status'] == 'success') {
+        if (response != null &&
+            (response['status'] == 'success' ||
+                response['message'] == 'Forum created successfully')) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Forum created successfully!'),
               backgroundColor: Colors.green,
             ),
           );
-          // Kembali ke halaman sebelumnya (forum screen) dan kirim hasil true
           Navigator.pop(context, true);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -57,10 +106,11 @@ class _CreateForumScreenState extends State<CreateForumScreen> {
         }
       }
     } catch (e) {
+      print("Error creating forum: $e"); // Debug print
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Error occurred while creating the forum."),
+          SnackBar(
+            content: Text("Error: $e"),
             backgroundColor: Colors.red,
           ),
         );

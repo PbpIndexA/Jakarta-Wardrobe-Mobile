@@ -15,6 +15,9 @@ class GlobalChat {
   int currentPage;
   bool hasPrevious;
   bool hasNext;
+  bool isLiked = false;
+  // bool isBookmarked = false;
+  // int commentCount = 0;
 
   GlobalChat({
     required this.forums,
@@ -48,8 +51,11 @@ class Forum {
   String purpose;
   String user;
   DateTime postedTime;
-  int likeCount;
-  int bookmarkCount;
+  int likeCount;  // Ubah menjadi non-final agar bisa diubah
+  final int bookmarkCount;
+  bool isLiked;  // Tambahkan ini
+  bool isBookmarked;  // Tambahkan ini
+
 
   Forum({
     required this.id,
@@ -60,6 +66,8 @@ class Forum {
     required this.postedTime,
     required this.likeCount,
     required this.bookmarkCount,
+    this.isLiked = false,  // Default value
+    this.isBookmarked = false,  // Default value
   });
 
   factory Forum.fromJson(Map<String, dynamic> json) => Forum(
