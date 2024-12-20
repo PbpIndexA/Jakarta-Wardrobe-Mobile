@@ -210,6 +210,8 @@ class DetailDialog extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    backgroundColor:  Color.fromARGB(255, 58, 56, 56),
+                    foregroundColor: Colors.white,
                   ),
                   child: const Text("Review"),
                 ),
@@ -224,6 +226,8 @@ class DetailDialog extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    backgroundColor:  Color.fromARGB(255, 58, 56, 56),
+                    foregroundColor: Colors.white,
                   ),
                   child: const Text("Comment"),
                 ),
