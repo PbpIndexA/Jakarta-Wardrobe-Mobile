@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:jawa_app/product/screens/comment_page.dart';
 import 'package:jawa_app/product/screens/review_page.dart';
-import 'package:jawa_app/product/models/sharedmodel.dart';
+import 'package:jawa_app/product/models/sharedmodel.dart' as sharedmodel;
 
 class DetailDialog extends StatelessWidget {
-  final ProductEntry product;
+  final sharedmodel.ProductEntry product;
 
   const DetailDialog({super.key, required this.product});
 
@@ -205,11 +205,13 @@ class DetailDialog extends StatelessWidget {
                     // Navigasi ke halaman Review
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ReviewPage(product: product)),
+                      MaterialPageRoute(builder: (context) => RatingPage(product: product)),
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    backgroundColor:  Color.fromARGB(255, 58, 56, 56),
+                    foregroundColor: Colors.white,
                   ),
                   child: const Text("Review"),
                 ),
@@ -224,6 +226,8 @@ class DetailDialog extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    backgroundColor:  Color.fromARGB(255, 58, 56, 56),
+                    foregroundColor: Colors.white,
                   ),
                   child: const Text("Comment"),
                 ),
